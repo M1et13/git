@@ -13,5 +13,29 @@ WORDS = [
     "волк", "лиса", "медведь", "заяц", "белка", "ёж", "лось", "олень"
 ]
 
-print("Создан большой список слов для игры")
-print(f"Всего слов: {len(WORDS)}")
+points = {
+    "comp": 0,
+    "player": 0
+}
+
+
+# Новая функция для выбора случайных слов
+def get_random_words(count=2):
+    """Выбирает указанное количество случайных слов из списка"""
+    return random.sample(WORDS, count)
+
+
+while True:
+    # Выбираем два случайных слова для сложения
+    word1, word2 = get_random_words(2)
+
+    user = input(f"{word1} + {word2} = ")
+
+    if user == word1 + word2:
+        print("Верно!")
+        points["player"] += 1
+    else:
+        print("Ты ошибся. Попробуй ещё разочек.")
+        points["comp"] += 1
+
+    print(f'Счёт: {points["player"]}:{points["comp"]}')
