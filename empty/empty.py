@@ -19,17 +19,8 @@ points = {
 }
 
 
-def get_random_words(count=2):
-    return random.sample(WORDS, count)
-
-
 def judge_concatenation(word1, word2, user_answer):
-    """
-    Судья проверяет правильность сложения строк
-    Возвращает кортеж (правильно_ли, сообщение_для_игрока)
-    """
     correct_answer = word1 + word2
-
     if user_answer == correct_answer:
         return True, "✓ Абсолютно верно! Строки сложены правильно."
     elif user_answer == word1 or user_answer == word2:
@@ -45,7 +36,7 @@ def judge_concatenation(word1, word2, user_answer):
 
 
 while True:
-    word1, word2 = get_random_words(2)
+    word1, word2 = random.sample(WORDS, 2)
 
     print(f"\nСложи строки: '{word1}' + '{word2}'")
     user_input = input("Твой ответ: ")
