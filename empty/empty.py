@@ -19,23 +19,46 @@ points = {
 }
 
 
-# Новая функция для выбора случайных слов
 def get_random_words(count=2):
-    """Выбирает указанное количество случайных слов из списка"""
     return random.sample(WORDS, count)
 
 
+def judge_concatenation(word1, word2, user_answer):
+    """
+    Судья проверяет правильность сложения строк
+    Возвращает кортеж (правильно_ли, сообщение_для_игрока)
+    """
+    correct_answer = word1 + word2
+
+    if user_answer == correct_answer:
+        return True, "✓ Абсолютно верно! Строки сложены правильно."
+    elif user_answer == word1 or user_answer == word2:
+        return False, "✗ Ты ввёл только одно слово. Нужно сложить оба!"
+    elif user_answer == word1 + " " + word2 or user_answer == word2 + " " + word1:
+        return False, "✗ Пробел не нужен! Просто напиши слова подряд."
+    elif user_answer == word1.upper() + word2 or user_answer == word1 + word2.upper():
+        return False, "✗ Регистр важен! Пиши слова так, как они даны."
+    elif len(user_answer) > len(correct_answer) * 2:
+        return False, "✗ Твой ответ слишком длинный. Проверь, нет ли лишних символов."
+    else:
+        return False, f"✗ Неправильно. Правильный ответ: '{correct_answer}'"
+
+
 while True:
-    # Выбираем два случайных слова для сложения
     word1, word2 = get_random_words(2)
 
-    user = input(f"{word1} + {word2} = ")
+    print(f"\nСложи строки: '{word1}' + '{word2}'")
+    user_input = input("Твой ответ: ")
 
-    if user == word1 + word2:
-        print("Верно!")
+    is_correct, message = judge_concatenation(word1, word2, user_input)
+
+    if is_correct:
+        print(message)
         points["player"] += 1
     else:
-        print("Ты ошибся. Попробуй ещё разочек.")
+        print(message)
+        print("Попробуй ещё раз.")
         points["comp"] += 1
 
     print(f'Счёт: {points["player"]}:{points["comp"]}')
+    print("-" * 40)
